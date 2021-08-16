@@ -37,6 +37,40 @@ services:
     networks:
       - reverse-proxy-net
 
+  products:
+    image: node:latest
+    init: true
+    user: "node"
+    working_dir: /home/node/app
+    volumes:
+      - ./products:/home/node/app
+      - ./pattern-lib:/home/node/pattern-lib # as install source for npm
+    ports:
+      - 5002:5002
+    environment:
+      - NODE_ENV=production
+      - PORT=5002
+    command: npm start
+    networks:
+      - reverse-proxy-net
+
+  ordering:
+    image: node:latest
+    init: true
+    user: "node"
+    working_dir: /home/node/app
+    volumes:
+      - ./ordering:/home/node/app
+      - ./pattern-lib:/home/node/pattern-lib # as install source for npm
+    ports:
+      - 5003:5003
+    environment:
+      - NODE_ENV=production
+      - PORT=5003
+    command: npm start
+    networks:
+      - reverse-proxy-net
+
   reverse-proxy:
     image: nginx:latest
     volumes:

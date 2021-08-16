@@ -23,9 +23,5 @@ export default config => {
     res.render('index')
   })
 
-  app.get('/basket', (req, res) => {
-    res.render('basket')
-  })
-
   return app
 }
