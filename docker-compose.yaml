@@ -1,0 +1,32 @@
+version: "3.8"
+services:
+  pattern-lib:
+    image: node:latest
+    init: true
+    user: "node"
+    working_dir: /home/node/app
+    volumes:
+      - ./pattern-lib:/home/node/app
+    ports:
+      - 5000:5000
+    environment:
+      - NODE_ENV=production
+      - PORT=5000
+    command: npm start
+
+  editorial-content:
+    image: node:latest
+    init: true
+    user: "node"
+    working_dir: /home/node/app
+    volumes:
+      - ./editorial-content:/home/node/app
+      - ./pattern-lib:/home/node/pattern-lib # as install source for npm
+    ports:
+      - 5001:5001
+    environment:
+      - NODE_ENV=production
+      - PORT=5001
+    command: npm start
+    depends_on:
+      - pattern-lib

@@ -1,0 +1,23 @@
+body {
+  box-sizing: border-box;
+}
+
+nav {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+nav ul {
+  margin: 0;
+  padding: 0;
+}
+
+nav li {
+  display: inline-block;
+  list-style-type: none;
+  margin-left: 1rem;
+}
+
+nav li:first-of-type {
+  margin-left: 0;
+}
