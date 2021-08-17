@@ -9,7 +9,7 @@ block content
         tr
           td
             if loggedIn
-              async-form(on-success="basket:item-added")
+              async-form(on-success="basket:item-added" form-event-props="name")
                 form(action="/ordering/basket" method="POST")
                   input(type="submit" value="Add to basket")
                   input(type="hidden" name="id" value=product.id)

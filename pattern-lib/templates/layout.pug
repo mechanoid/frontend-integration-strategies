@@ -1,32 +1,36 @@
-doctype html
-html(lang="en")
-  head
-    meta(charset="UTF-8")
-    meta(http-equiv="X-UA-Compatible", content="IE=edge")
-    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+if onlyPartial
+  block content
+else
+  doctype html
+  html(lang="en")
+    head
+      meta(charset="UTF-8")
+      meta(http-equiv="X-UA-Compatible", content="IE=edge")
+      meta(name="viewport", content="width=device-width, initial-scale=1.0")
 
-    each cssFile in assetsManifest.css
-      link(rel="stylesheet", href=cssFile)
+      each cssFile in assetsManifest.css
+        link(rel="stylesheet", href=cssFile)
 
-    each jsFile in assetsManifest.js
-      script(src=jsFile async)
+      each jsFile in assetsManifest.js
+        script(src=jsFile async)
 
-    title Shop
-  body
-    nav
-      ul
-        li
-          a(href="/") Home
-        li
-          a(href="/products") Products
-        if loggedIn
+      title Shop
+    body
+      nav
+        ul
           li
-            a(href="/ordering") Orders
+            a(href="/") Home
+          li
+            a(href="/products") Products
+          if loggedIn
+            li
+              a(href="/ordering") Orders
 
-      if loggedIn
-        a(href="/ordering/basket") Shopping Basket
-      else
-        sign-in
-          button.log-in Sign in
-    main
-      block content
+        if loggedIn
+          shopping-basket-preview
+            a(href="/ordering/basket") Shopping Basket
+        else
+          sign-in
+            button.log-in Sign in
+      main
+        block content

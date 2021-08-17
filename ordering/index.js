@@ -32,6 +32,14 @@ app.use((req, _, next) => {
   next()
 })
 
+app.use((req, _, next) => {
+  if(req.get('fint-partialized')) {
+    req.onlyPartial = true
+    console.log('PARTIAL!!!!');
+  }
+  next()
+})
+
 try {
   const assetsManifestFile = await readFile('node_modules/pattern-lib/dist/manifest.json')
   const assetsManifest = JSON.parse(assetsManifestFile)
@@ -58,7 +66,7 @@ export default config => {
   app.get('/basket', (req, res) => {
     if (req.userId) {
       const basket = baskets.getOrCreateBasketByUserId(req.userId)
-      res.render('basket', { loggedIn: !!req.userId, items: basket.items })
+      res.render('basket', { loggedIn: !!req.userId, items: basket.items, onlyPartial: req.onlyPartial })
     } else {
       res.status(401)
       res.send("You're not logged in. Go Back!!")

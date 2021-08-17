@@ -1,15 +1,31 @@
 extends ../node_modules/pattern-lib/templates/layout.pug
 
 block content
-  h1 Shopping Basket
+  if onlyPartial
+    h3 Shopping Basket
 
-  if items
-    table
-      each item in items
-        tr
-          td
-            form(action=`/ordering/basket/${item.id}` method="POST")
-              input(type="hidden" name="_method", value="DELETE")
-              input(type="submit" value="X")
-          td= item.name
-          td= item.count
+    if items
+      ul
+        each item in items
+          li(id=`item-${item.id}`)
+            = item.name
+            = " "
+            async-form(on-success="basket:item-removed")
+              form(action=`/ordering/basket/${item.id}` method="POST")
+                input(type="hidden" name="_method", value="DELETE")
+                input(type="hidden" name="id", value=item.id)
+                input(type="submit" value="X")
+
+  else
+    h1 Shopping Basket
+
+    if items
+      table
+        each item in items
+          tr
+            td
+              form(action=`/ordering/basket/${item.id}` method="POST")
+                input(type="hidden" name="_method", value="DELETE")
+                input(type="submit" value="X")
+            td= item.name
+            td= item.count
