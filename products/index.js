@@ -1,4 +1,4 @@
-import {readFile} from 'fs/promises'
+import { readFile } from 'fs/promises'
 import express from 'express'
 import 'pug'
 import cookieParser from 'cookie-parser'

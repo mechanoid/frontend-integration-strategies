@@ -38,7 +38,7 @@ class Basket {
 }
 
 class Baskets {
-  constructor() {
+  constructor () {
     this.basketsByUsers = {}
   }
 

@@ -1,4 +1,4 @@
-import {readFile} from 'fs/promises'
+import { readFile } from 'fs/promises'
 import express from 'express'
 import morgan from 'morgan'
 import 'pug'
