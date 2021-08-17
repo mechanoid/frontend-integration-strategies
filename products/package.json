@@ -24,7 +24,9 @@
   "type": "module",
   "module": "index.js",
   "dependencies": {
+    "cookie-parser": "^1.4.5",
     "express": "^4.17.1",
+    "faker": "^5.5.3",
     "helmet": "^4.6.0",
     "morgan": "^1.10.0",
     "pattern-lib": "file:../pattern-lib",

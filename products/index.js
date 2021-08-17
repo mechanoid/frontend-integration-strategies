@@ -1,11 +1,23 @@
 import {readFile} from 'fs/promises'
 import express from 'express'
-import morgan from 'morgan'
 import 'pug'
+import cookieParser from 'cookie-parser'
+
+import products from './data/products.js'
 
 const app = express()
-app.use(morgan('combined'))
 app.set('view engine', 'pug')
+app.use(cookieParser());
+
+app.use((req, _, next) => {
+  if(req.cookies['simple-shop-user-id']) {
+    const userId = req.cookies['simple-shop-user-id']
+
+    req.userId = userId
+  }
+
+  next()
+})
 
 try {
   const assetsManifestFile = await readFile('node_modules/pattern-lib/dist/manifest.json')
@@ -20,7 +32,7 @@ try {
 
 export default config => {
   app.get('/', (req, res) => {
-    res.render('index')
+    res.render('index', { products, loggedIn: !!req.userId })
   })
 
   return app

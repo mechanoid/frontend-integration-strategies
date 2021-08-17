@@ -1,4 +1,15 @@
-extends ./layout.pug
+extends ../node_modules/pattern-lib/templates/layout.pug
 
 block content
   h1 Products
+
+  if products
+    table
+      each product in products
+        tr
+          td
+            if loggedIn
+              form(action="ordering/basket" method="POST")
+                input(type="submit" value="Add to basket")
+          td= product.name
+          td= product.description

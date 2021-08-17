@@ -5,7 +5,6 @@ html(lang="en")
     meta(http-equiv="X-UA-Compatible", content="IE=edge")
     meta(name="viewport", content="width=device-width, initial-scale=1.0")
 
-
     each cssFile in assetsManifest.css
       link(rel="stylesheet", href=cssFile)
 
@@ -20,9 +19,14 @@ html(lang="en")
           a(href="/") Home
         li
           a(href="/products") Products
-        li
-          a(href="/ordering") Orders
+        if loggedIn
+          li
+            a(href="/ordering") Orders
 
-      a(href="/ordering/basket") Shopping Basket
+      if loggedIn
+        a(href="/ordering/basket") Shopping Basket
+      else
+        sign-in
+          button.log-in Sign in
     main
       block content

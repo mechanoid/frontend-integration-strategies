@@ -10,5 +10,5 @@ const config = {
 }
 
 const server = app(config).listen(config.port, () => {
-  console.log(`listening to port: ${server.address().port}`)
+  console.log(`available at http://localhost:${server.address().port}`)
 })
