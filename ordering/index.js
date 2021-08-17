@@ -1,5 +1,5 @@
 import { readFile } from 'fs/promises'
-import express from 'express'
+import express, { urlencoded } from 'express'
 import morgan from 'morgan'
 import 'pug'
 import cookieParser from 'cookie-parser'
@@ -9,7 +9,7 @@ import { Baskets } from './lib/baskets.js'
 const app = express()
 app.set('view engine', 'pug')
 app.use(cookieParser())
-app.use(bodyParser.urlencoded({
+app.use(urlencoded({
   extended: true
 }))
 
