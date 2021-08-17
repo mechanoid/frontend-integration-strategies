@@ -8,12 +8,13 @@ import { Baskets } from './lib/baskets.js'
 
 const app = express()
 app.set('view engine', 'pug')
-app.use(cookieParser());
+app.use(cookieParser())
 app.use(bodyParser.urlencoded({
   extended: true
-}));
-app.use((req,_,next) => {
-  const method = req.body['_method'] && req.body['_method'].toUpperCase()
+}))
+
+app.use((req, _, next) => {
+  const method = req.body._method && req.body._method.toUpperCase()
   if (method) {
     req.method = method
   }
@@ -22,7 +23,7 @@ app.use((req,_,next) => {
 app.use(morgan('combined'))
 
 app.use((req, _, next) => {
-  if(req.cookies['simple-shop-user-id']) {
+  if (req.cookies['simple-shop-user-id']) {
     const userId = req.cookies['simple-shop-user-id']
 
     req.userId = userId
@@ -31,15 +32,14 @@ app.use((req, _, next) => {
   next()
 })
 
-
 try {
   const assetsManifestFile = await readFile('node_modules/pattern-lib/dist/manifest.json')
   const assetsManifest = JSON.parse(assetsManifestFile)
 
   app.locals = app.locals || {}
   app.locals.assetsManifest = assetsManifest
-} catch(e) {
-  console.log('failed to load assets manifest file, due to', e.message);
+} catch (e) {
+  console.log('failed to load assets manifest file, due to', e.message)
   throw new Error('Client-Assets could not be loaded')
 }
 
@@ -81,13 +81,13 @@ export default config => {
     if (req.userId) {
       const basket = baskets.getOrCreateBasketByUserId(req.userId)
       const productId = parseInt(req.params.id)
-      console.log('to be deleted', productId);
+      console.log('to be deleted', productId)
       if (productId) {
         basket.remove(productId)
         res.redirect('/ordering/basket')
       } else {
         res.status(400)
-        res.send("Bad Request! Product ID is missing!")
+        res.send('Bad Request! Product ID is missing!')
       }
     } else {
       res.status(401)
