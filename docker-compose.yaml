@@ -5,69 +5,94 @@ networks:
 
 services:
   pattern-lib:
-    image: node:latest
+    build:
+      context: ./pattern-lib
+      dockerfile: ./Dockerfile-node
     init: true
     user: "node"
     working_dir: /home/node/app
     volumes:
-      - ./pattern-lib:/home/node/app
+      - ./pattern-lib/env.template.yaml:/home/node/app/env.yaml:ro
+      - ./pattern-lib/assets:/home/node/app/assets:ro
+      - ./pattern-lib/bin:/home/node/app/bin:ro
+      - ./pattern-lib/index.js:/home/node/app/index.js:ro
     ports:
       - 5000:5000
     environment:
       - NODE_ENV=production
       - PORT=5000
-    command: npm start
+    command: ["node", "./bin/pattern-lib.js"]
     networks:
       - reverse-proxy-net
 
   editorial-content:
-    image: node:latest
+    build:
+      context: .
+      dockerfile: Dockerfile-node
+      args:
+        - app=editorial-content
     init: true
     user: "node"
-    working_dir: /home/node/app
     volumes:
-      - ./editorial-content:/home/node/app
-      - ./pattern-lib:/home/node/pattern-lib # as install source for npm
+      - ./editorial-content/env.template.yaml:/home/node/app/env.yaml:ro
+      - ./editorial-content/bin:/home/node/app/bin:ro
+      - ./editorial-content/views:/home/node/app/views:ro
+      - ./editorial-content/index.js:/home/node/app/index.js:ro
+      - ./pattern-lib:/home/node/pattern-lib:ro # as install source for npm
     ports:
       - 5001:5001
     environment:
       - NODE_ENV=production
       - PORT=5001
-    command: npm start
+    command: ["node", "./bin/editorial-content.js"]
     networks:
       - reverse-proxy-net
 
   products:
-    image: node:latest
+    build:
+      context: .
+      dockerfile: Dockerfile-node
+      args:
+        - app=products
     init: true
     user: "node"
-    working_dir: /home/node/app
     volumes:
-      - ./products:/home/node/app
-      - ./pattern-lib:/home/node/pattern-lib # as install source for npm
+      - ./products/env.template.yaml:/home/node/app/env.yaml:ro
+      - ./products/bin:/home/node/app/bin:ro
+      - ./products/data:/home/node/app/data:ro
+      - ./products/views:/home/node/app/views:ro
+      - ./products/index.js:/home/node/app/index.js:ro
+      - ./pattern-lib:/home/node/pattern-lib:ro # as install source for npm
     ports:
       - 5002:5002
     environment:
       - NODE_ENV=production
       - PORT=5002
-    command: npm start
+    command: ["node", "./bin/products.js"]
     networks:
       - reverse-proxy-net
 
   ordering:
-    image: node:latest
+    build:
+      context: .
+      dockerfile: Dockerfile-node
+      args:
+        - app=ordering
     init: true
     user: "node"
-    working_dir: /home/node/app
     volumes:
-      - ./ordering:/home/node/app
-      - ./pattern-lib:/home/node/pattern-lib # as install source for npm
+      - ./ordering/env.template.yaml:/home/node/app/env.yaml:ro
+      - ./ordering/bin:/home/node/app/bin:ro
+      - ./ordering/lib:/home/node/app/lib:ro
+      - ./ordering/views:/home/node/app/views:ro
+      - ./ordering/index.js:/home/node/app/index.js:ro
+      - ./pattern-lib:/home/node/pattern-lib:ro # as install source for npm
     ports:
       - 5003:5003
     environment:
       - NODE_ENV=production
       - PORT=5003
-    command: npm start
+    command: ["node", "./bin/ordering.js"]
     networks:
       - reverse-proxy-net
 

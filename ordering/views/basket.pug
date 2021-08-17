@@ -2,3 +2,14 @@ extends ../node_modules/pattern-lib/templates/layout.pug
 
 block content
   h1 Shopping Basket
+
+  if items
+    table
+      each item in items
+        tr
+          td
+            form(action=`/ordering/basket/${item.id}` method="POST")
+              input(type="hidden" name="_method", value="DELETE")
+              input(type="submit" value="X")
+          td= item.name
+          td= item.count

@@ -1,25 +1,19 @@
-class Item {
-  constructor({id, name, count = 1}) {
-    Object.assign(this, { id, name, count })
-  }
-}
-
 class Basket {
-  constructor(userId) {
+  constructor (userId) {
     this.userId = userId
     this._items = {}
   }
 
-  get items() {
-    return this._items.reduce((result, item) => result.concat(item), [])
+  get items () {
+    return Object.entries(this._items).reduce((result, [, item]) => result.concat(item), [])
   }
 
-  itemById(id) {
+  itemById (id) {
     return this._items[id]
   }
 
-  add({id, name, count}) {
-    if(!this.itemById(id)) {
+  add ({ id, name, count }) {
+    if (!this.itemById(id)) {
       this._items[id] = { id, name, count }
     } else {
       const item = this.itemById(id)
@@ -27,35 +21,36 @@ class Basket {
     }
   }
 
-  remove(id) {
+  remove (id) {
+    console.log('REMOVE', id)
     delete this._items[id]
   }
 
-  updateCount({ id, count }) {
+  updateCount ({ id, count }) {
     const item = this.itemById(id)
     item.count = count
   }
 }
 
-class Baskets {
+export class Baskets {
   constructor () {
     this.basketsByUsers = {}
   }
 
-  basketByUserId(userId) {
+  basketByUserId (userId) {
     return this.basketsByUsers[userId]
   }
 
-  addBasketForUserId(userId, basket) {
+  addBasketForUserId (userId, basket) {
     this.basketsByUsers[userId] = basket
   }
 
-  basketByUserIdExists(userId) {
+  basketByUserIdExists (userId) {
     return !!this.basketByUserId(userId)
   }
 
-  getOrCreateBasketByUserId(userId) {
-    if(this.basketByUserIdExists(userId)) {
+  getOrCreateBasketByUserId (userId) {
+    if (this.basketByUserIdExists(userId)) {
       return this.basketByUserId(userId)
     } else {
       const basket = new Basket(userId)

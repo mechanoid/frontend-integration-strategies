@@ -1,0 +1,11 @@
+FROM node:latest
+
+WORKDIR /home/node/app
+ARG app
+
+COPY ./pattern-lib ../pattern-lib
+COPY $app/package.json ./package.json
+COPY $app/package-lock.json ./package-lock.json
+
+RUN npm ci
+

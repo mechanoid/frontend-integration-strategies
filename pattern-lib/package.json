@@ -6,21 +6,20 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "create-manifest": "node bin/asset-manifest.js",
-    "prestart": "npm ci && npm run create-manifest",
     "start": "node bin/pattern-lib.js"
   },
   "author": "Falk Hoppe <falkhoppe81@gmail.com>",
   "license": "MIT",
   "bin": {
-    "pattern-lib": "bin/pattern-lib.js"
+    "pattern-lib": "bin/pattern-lib.js",
+    "pat-lib-asset-manifest": "bin/asset-manifest.js"
   },
   "devDependencies": {
     "eslint": "^7.32.0",
     "eslint-config-standard": "^16.0.3",
     "eslint-plugin-import": "^2.24.0",
     "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^5.1.0",
-    "eslint-plugin-standard": "^5.0.0"
+    "eslint-plugin-promise": "^5.1.0"
   },
   "type": "module",
   "module": "index.js",
